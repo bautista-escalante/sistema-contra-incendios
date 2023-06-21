@@ -9,8 +9,10 @@
 #define RS 10
 #define E 9
 #define rojo 13
-#define verde 12
+#define verde 12  
 #define IR 2
+#define func 0xFD02BF00
+#define power 0xFF00BF00
 
 bool activo = true;
 Servo myservo;  
@@ -19,7 +21,7 @@ decode_results infrarrojo;
 
 void EncenderDiodo(int led);
 void OperarLcd(const char* estacion,int temp);
-void CalcularEstacion(int temperatura);
+void CalcularEstacion(int temperatura,bool bandera);
 void MoverServo(int grados);
 void UsarControl();
 
@@ -38,7 +40,8 @@ void loop()
 {
   int sensor = analogRead(A0);
   int temperatura = map(sensor,20,358,-40,125);
-  CalcularEstacion(temperatura);
+  CalcularEstacion(temperatura,activo);
+  UsarControl();
 }
 
 void EncenderDiodo(int led)
@@ -52,7 +55,7 @@ void EncenderDiodo(int led)
   	digitalWrite(verde, LOW);
   }
 }
-void CalcularEstacion(int temperatura)
+void CalcularEstacion(int temperatura,bool bandera)
 {
 	if (temperatura>=0 && temperatura<=10)
   {
@@ -74,7 +77,7 @@ void CalcularEstacion(int temperatura)
 	OperarLcd("otonio",temperatura);
     EncenderDiodo(1);
   }
-  else if(temperatura>=45 && activo==true)
+  else if(temperatura>=45 && bandera==true)
   {
    EncenderDiodo(2);
    OperarLcd("INCENDIO ",temperatura);
@@ -102,15 +105,15 @@ void MoverServo(int grados)
 void UsarControl() {
   if (IrReceiver.decode()) {
       IrReceiver.resume();
-    if(IrReceiver.decodedIRData.decodedRawData == 0xFF00BF00)
+    if(IrReceiver.decodedIRData.decodedRawData == power)
     {
-      activo==false;
-     Serial.print("apagado");
+      activo=false;
+     Serial.println("apagado");
     }
-    else if(IrReceiver.decodedIRData.decodedRawData == 0xFD02BF00)
+    else if(IrReceiver.decodedIRData.decodedRawData == func)
     {
-      activo==true;
-     Serial.print("encendido"); 
+     activo=true;
+     Serial.println("encendido"); 
     }
   }
 }
