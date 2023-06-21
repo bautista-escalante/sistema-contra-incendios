@@ -1,6 +1,16 @@
 # sistema contra incendios
-este sistema informa la estacion del año segun el rango de temperatura y en caso de un incendio lo informa y mueve el servo motor
+El objetivo de este proyecto es diseñar un sistema de incendio utilizando Arduino que puedadetectar cambios de temperatura y activar un servo motor en caso de detectar un incendio.Además, se mostrará la temperatura actual y la estación del año en un display LCD.
 
+# componentes
+* Arduino UNO
+* Sensor de temperatura
+* Control remoto IR (Infrarrojo)
+* Display LCD (16x2 caracteres)
+* Servo motor
+* Cables y 3 resistencias de 220 Ω
+* Protoboard para realizar las conexiones
+* Dos leds (uno verde y uno rojo).
+  
 ## esquematico
 
 ![Circuit design 2do parcial _ Tinkercad - Google Chrome 19_6_2023 08_49_43 (2)](https://github.com/bautista-escalante/sistema-contra-incendios/assets/123372673/3a098bed-a021-4faf-9cdd-6dd2c10246ae)
