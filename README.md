@@ -107,17 +107,22 @@ void MoverServo(int grados)
 ### UsarControl()
 esta funcion apaga el sistema con un control remoto
 ```cpp
+}
 void UsarControl() {
-  if (irrecv.decode(&infrarrojo)) {
-    unsigned long value = infrarrojo.value;
-    Serial.println(value, HEX);  // Imprimir el valor del botón presionado en hexadecimal
-    irrecv.resume();  // Reiniciar el receptor IR
-
-    if (value == 0xFFFFFFFF) {
-      activo = false;
-      digitalWrite(rojo, LOW);
+  if (IrReceiver.decode()) {
+      IrReceiver.resume();
+    if(IrReceiver.decodedIRData.decodedRawData == power)
+    {
+      activo=false;
+     Serial.println("apagado");
+    }
+    else if(IrReceiver.decodedIRData.decodedRawData == func)
+    {
+     activo=true;
+     Serial.println("encendido"); 
     }
   }
+}
 ```
 # link del proyecto
 https://www.tinkercad.com/things/gJdcS0MnkMV-2do-parcial/editel?sharecode=BHd2l6CWNNyz-uC4-E2yNhhAMRBsZ_Hp7laVMdXjlVU
